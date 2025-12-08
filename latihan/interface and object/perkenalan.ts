@@ -3,14 +3,13 @@ interface Murid {
   umur: number;
 }
 
+function kenalanMurid(o: Murid): string {
+  return `Nama saya ${o.nama} dan umur saya ${o.umur} tahun`
+}
+
 const orang: Murid = {
   nama: "Ipal Jago PB",
   umur: 17
 }
-
-function kenalanMurid(k: Murid): string {
-  return `Nama saya ${k.nama} dan umur saya ${k.umur} tahun`
-}
-
 const muridKenalan: string = kenalanMurid(orang)
 console.log(muridKenalan)
