@@ -2,7 +2,10 @@
 
 function formNama(namaDepan: string, namaBelakang: string) : string | null{
   const namaLengkap = namaDepan + " " + namaBelakang
+  if (!namaDepan || !namaBelakang){
+    return null
+  }
   return namaLengkap;
 }
-const formNamaLengkap = formNama("Ipal", "Jago PB")
+const formNamaLengkap = formNama("", "isi")
 console.log(formNamaLengkap)
