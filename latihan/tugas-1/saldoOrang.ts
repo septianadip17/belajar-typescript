@@ -22,5 +22,5 @@ let Users: User[] = [
   { id: 2, name: "Budi", balance: 50000 },
   { id: 3, name: "Citra", balance: 200000 },
 ];
-const idUser = getUserById(a)
+const idUser = getUserById(1)
 console.log(idUser)
