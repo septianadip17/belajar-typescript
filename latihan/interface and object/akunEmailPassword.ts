@@ -36,7 +36,7 @@ function loginUser(email: string, password: string) : string | null {
 } 
 
 const emailOrang: string = "email1@mail.com"
-const passwordOrang: string = "123123w"
+const passwordOrang: string = "123123"
 const hasil: string | null = loginUser(emailOrang, passwordOrang)
 
 console.log(hasil)
