@@ -6,8 +6,6 @@ interface User {
   balance: number;
 }
 
-
-
 function getUserById(id: number): User | null {
   for (const user of Users) {
     if (user.id === id) {
