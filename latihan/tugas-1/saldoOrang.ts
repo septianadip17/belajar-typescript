@@ -1,10 +1,12 @@
-import { User } from "./User";
+// import { User } from "./User";
 
-let Users: User[] = [
-  { id: 1, name: "Andi", balance: 100000 },
-  { id: 2, name: "Budi", balance: 50000 },
-  { id: 3, name: "Citra", balance: 200000 },
-];
+interface User {
+  id: number;
+  name: string;
+  balance: number;
+}
+
+
 
 function getUserById(id: number): User | null {
   for (const user of Users) {
@@ -15,5 +17,10 @@ function getUserById(id: number): User | null {
   return null
 }
 
-const idUser = getUserById(1)
+let Users: User[] = [
+  { id: 1, name: "Andi", balance: 100000 },
+  { id: 2, name: "Budi", balance: 50000 },
+  { id: 3, name: "Citra", balance: 200000 },
+];
+const idUser = getUserById(a)
 console.log(idUser)
