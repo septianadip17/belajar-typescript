@@ -1,4 +1,4 @@
-Data awal
+## Data awal
 
 ⁠ type User = {
   id: number;
@@ -13,7 +13,7 @@ let users: User[] = [
 ]; ⁠
 
 
-Tugas 1:
+## Tugas 1:
 
 ⁠ getUserById(id: number): User | null ⁠
 
@@ -23,14 +23,16 @@ Rules:
 •⁠  ⁠Return null jika tidak ada
 
 
-Tugas 2:
+## Tugas 2:
 
 ⁠ checkBalance(userId: number): number | string ⁠
 
 Rules:
 •⁠  ⁠Jika user ada → return balance
 •⁠  ⁠Jika user tidak ada → return "User not found"
-Tugas 3:
+
+
+## Tugas 3:
 
 ⁠ topUp(userId: number, amount: number): string ⁠
 
@@ -40,7 +42,7 @@ Rules:
 •⁠  ⁠Jika sukses → "Top up success"
 •⁠  ⁠Saldo user harus bertambah
 
-Tugas 4:
+## Tugas 4:
 
 ⁠ transfer(fromId: number, toId: number, amount: number): string ⁠
 
@@ -52,7 +54,8 @@ Rules:
 •⁠  ⁠-> saldo pengirim berkurang
 •⁠  ⁠-> saldo penerima bertambah
 •⁠  ⁠-> return "Transfer success"
-[09/12/25, 15.29.26] Ipal Bawah: Tugas Final:
+
+## Tugas Final:
 
 ⁠ getUserSummary(): string[] ⁠
 
