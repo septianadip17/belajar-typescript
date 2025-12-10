@@ -18,8 +18,12 @@ function getUserById(id: number): User | null {
 
 // function check balance user
 function checkBalance(userId: number):number | string{
-  
-  return ""
+  for (const user of Users){
+    if (user.id === userId){
+      return user.balance
+    }
+  }
+  return "User not found"
 }
 
 // data user
@@ -30,6 +34,10 @@ let Users: User[] = [
 ];
 
 // check user id
-const idUser = getUserById(1)
-console.log(idUser)
+const checkUserId = getUserById(1)
+console.log(checkUserId)
+
+// check user balance
+const checkUserBalance = checkBalance(1)
+console.log(checkUserBalance)
 

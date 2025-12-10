@@ -1,4 +1,4 @@
-[09/12/25, 15.24.12] Ipal Bawah: ata awal
+Data awal
 
 ⁠ type User = {
   id: number;
@@ -11,7 +11,9 @@ let users: User[] = [
   { id: 2, name: "Budi", balance: 50000 },
   { id: 3, name: "Citra", balance: 200000 },
 ]; ⁠
-[09/12/25, 15.24.59] Ipal Bawah: Tugas 1:
+
+
+Tugas 1:
 
 ⁠ getUserById(id: number): User | null ⁠
 
@@ -19,14 +21,16 @@ Rules:
 •⁠  ⁠Cari user berdasarkan id
 •⁠  ⁠Return user jika ketemu
 •⁠  ⁠Return null jika tidak ada
-[09/12/25, 15.25.28] Ipal Bawah: Tugas 2:
+
+
+Tugas 2:
 
 ⁠ checkBalance(userId: number): number | string ⁠
 
 Rules:
 •⁠  ⁠Jika user ada → return balance
 •⁠  ⁠Jika user tidak ada → return "User not found"
-[09/12/25, 15.26.39] Ipal Bawah: Tugas 3:
+Tugas 3:
 
 ⁠ topUp(userId: number, amount: number): string ⁠
 
@@ -35,7 +39,8 @@ Rules:
 •⁠  ⁠Jika amount ≤ 0 → "Invalid amount"
 •⁠  ⁠Jika sukses → "Top up success"
 •⁠  ⁠Saldo user harus bertambah
-[09/12/25, 15.28.18] Ipal Bawah: Tugas 4:
+
+Tugas 4:
 
 ⁠ transfer(fromId: number, toId: number, amount: number): string ⁠
 
