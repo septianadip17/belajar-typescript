@@ -27,7 +27,7 @@ function checkBalance(userId: number): number | string {
 }
 
 // function top up balance
-function topUpBalance(userId: number, amount: number): string {
+function topUp(userId: number, amount: number): string {
   for (const user of Users) {
     if (user.id === userId && amount <= 0) {
       return "Invalid amount"
@@ -40,6 +40,10 @@ function topUpBalance(userId: number, amount: number): string {
   }
   return ""
 }
+
+// function transfer
+
+
 
 // data user
 let Users: User[] = [
@@ -57,7 +61,7 @@ const checkUserBalance = checkBalance(1)
 console.log(checkUserBalance)
 
 // top up balance
-const topUpBalanceUser = topUpBalance(4, 2000)
-console.log(topUpBalanceUser)
+const topUpUser = topUp(4, 2000)
+console.log(topUpUser)
 
 // 
