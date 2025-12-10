@@ -6,15 +6,12 @@ interface User {
   balance: number;
 }
 
-
 // data user
 var Users: User[] = [
   { id: 1, name: "Andi", balance: 100000 },
   { id: 2, name: "Budi", balance: 50000 },
   { id: 3, name: "Citra", balance: 200000 },
 ];
-
-
 
 // function get user id
 function getUserById(id: number): User | null {
