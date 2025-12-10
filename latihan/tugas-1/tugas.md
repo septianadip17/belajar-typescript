@@ -66,3 +66,10 @@ Ekspektasi output:
   "Budi - Rp50000",
   "Citra - Rp200000"
 ] ⁠
+
+// call all functions
+getUserById() 
+checkBalance()
+topUp()
+transfer()
+getUserSummary()
