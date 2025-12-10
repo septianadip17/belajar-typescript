@@ -43,8 +43,6 @@ function topUp(userId: number, amount: number): string {
 
 // function transfer
 function transfer(fromId: number, toId: number, amount: number): string {
-  // pamit solat sek
-  // enggeh
   for (const user1 of Users) {
     if (amount <= 0) {
       return "invalid amount"
@@ -56,13 +54,20 @@ function transfer(fromId: number, toId: number, amount: number): string {
         if (saldoPengirim < amount) {
           return "Insufficient balance"
         } else {
-          const saldoDiTransfer = amount + saldoPenerima
-          return `Total Saldo Penerima ${saldoDiTransfer}`
+          let saldoDiTransfer = amount + saldoPenerima
+          let saldoSisaPengirim = saldoPengirim - amount
+          return `Saldo pengirim berkurang ${saldoSisaPengirim}
+          Saldo penerima bertambah ${amount}
+          Total Saldo Penerima ${saldoDiTransfer}`
         }
       }
     }
   }
   return "user not found"
+}
+
+function getSummary(): string[]{
+  return ""
 }
 
 
@@ -82,7 +87,7 @@ const checkUserBalance = checkBalance(1)
 console.log(checkUserBalance)
 
 // top up balance
-const topUpUser = topUp(4, 2000)
+const topUpUser = topUp(1, 2000)
 console.log(topUpUser)
 
 // transfer 

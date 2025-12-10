@@ -61,7 +61,7 @@ Rules:
 
 Ekspektasi output:
 
-⁠ [
+⁠[
   "Andi - Rp100000",
   "Budi - Rp50000",
   "Citra - Rp200000"
