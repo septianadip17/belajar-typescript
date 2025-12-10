@@ -36,7 +36,7 @@ function checkBalance(userId: number): number | string {
   return "User not found"
 }
 
-
+// function top up
 function topUp(userId: number, amount: number): string {
   if (amount <= 0) {
     return "Invalid amount"
@@ -53,29 +53,28 @@ function topUp(userId: number, amount: number): string {
 
 // function transfer
 function transfer(fromId: number, toId: number, amount: number): string {
-  for (const user1 of Users) {
-    if (amount <= 0) {
-      return "invalid amount"
-    }
-    for (const user2 of Users) {
-      if (fromId === user1.id && toId === user2.id) {
-        let saldoPengirim = user1.balance
-        let saldoPenerima = user2.balance
-        if (saldoPengirim < amount) {
-          return "Insufficient balance"
-        } else {
-          let saldoDiTransfer = amount + saldoPenerima
-          let saldoSisaPengirim = saldoPengirim - amount
-          return `Saldo pengirim berkurang ${saldoSisaPengirim}
-          Saldo penerima bertambah ${amount}
-          Total Saldo Penerima ${saldoDiTransfer}`
-        }
+  if (amount <= 0) {
+    return "Invalid amount"
+  }
+  // 
+  for (var user1 = 0; user1 < Users.length; user1++) {
+    var dataPengirim = Users[user1]
+    for (var user2 = 0; user2 < Users.length; user2++) {
+      var dataPenerima = Users[user2]
+      if (dataPengirim.balance < amount) {
+        return "Insufficient balance"
+      }
+      if (dataPengirim.id === fromId && dataPenerima.id === toId) {
+        dataPengirim.balance -= amount
+        dataPenerima.balance += amount
+        return "Transfer success"
       }
     }
   }
   return "user not found"
 }
 
+// get summary
 function getUserSummary(): string[] {
   const dataUser: string[] = []
   for (const user of Users) {
@@ -98,13 +97,13 @@ function getUserSummary(): string[] {
 // const checkUserBalance = checkBalance(1)
 // console.log(checkUserBalance)
 
-// top up balance
-const topUpUser = topUp(1, 2000)
-console.log(topUpUser)
+// // top up balance
+// const topUpUser = topUp(1, 2000)
+// console.log(topUpUser)
 
-// // transfer 
-// const transferUser = transfer(1, 2, 5000)
-// console.log(transferUser)
+// transfer 
+const transferUser = transfer(1, 2, 10000)
+console.log(transferUser)
 
 // get user summary
 const userSummary = getUserSummary()
