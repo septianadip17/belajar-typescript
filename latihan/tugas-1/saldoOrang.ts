@@ -6,6 +6,16 @@ interface User {
   balance: number;
 }
 
+
+// data user
+var Users: User[] = [
+  { id: 1, name: "Andi", balance: 100000 },
+  { id: 2, name: "Budi", balance: 50000 },
+  { id: 3, name: "Citra", balance: 200000 },
+];
+
+
+
 // function get user id
 function getUserById(id: number): User | null {
   for (const user of Users) {
@@ -26,19 +36,19 @@ function checkBalance(userId: number): number | string {
   return "User not found"
 }
 
-// function top up balance
+
 function topUp(userId: number, amount: number): string {
-  for (const user of Users) {
-    if (user.id === userId && amount <= 0) {
-      return "Invalid amount"
-    } else if (user.id === userId && amount >= 0) {
-      const saldoUser = user.balance + amount
-      return `Top up success ${saldoUser} + ${amount} = ${saldoUser}`
-    } else if (userId !== user.id) {
-      return "User not found"
+  if (amount <= 0) {
+    return "Invalid amount"
+  }
+  for (let i = 0; i < Users.length; i++) {
+    var dataUser = Users[i]
+    if (dataUser.id === userId) {
+      dataUser.balance += amount
+      return "Top up success"
     }
   }
-  return ""
+  return "User not found"
 }
 
 // function transfer
@@ -66,30 +76,36 @@ function transfer(fromId: number, toId: number, amount: number): string {
   return "user not found"
 }
 
-function getSummary(): string[]{
-  return ""
+function getUserSummary(): string[] {
+  const dataUser: string[] = []
+  for (const user of Users) {
+    let userName = user.name
+    let userBalance = user.balance
+    let userRow = `${userName} - Rp.${userBalance}`
+    dataUser.push(userRow)
+  }
+  return dataUser
 }
 
 
-// data user
-let Users: User[] = [
-  { id: 1, name: "Andi", balance: 100000 },
-  { id: 2, name: "Budi", balance: 50000 },
-  { id: 3, name: "Citra", balance: 200000 },
-];
 
-// check user id
-const checkUserId = getUserById(1)
-console.log(checkUserId)
 
-// check user balance
-const checkUserBalance = checkBalance(1)
-console.log(checkUserBalance)
+// // check user id
+// const checkUserId = getUserById(1)
+// console.log(checkUserId)
+
+// // check user balance
+// const checkUserBalance = checkBalance(1)
+// console.log(checkUserBalance)
 
 // top up balance
 const topUpUser = topUp(1, 2000)
 console.log(topUpUser)
 
-// transfer 
-const transferUser = transfer(1, 2, 5000)
-console.log(transferUser)
+// // transfer 
+// const transferUser = transfer(1, 2, 5000)
+// console.log(transferUser)
+
+// get user summary
+const userSummary = getUserSummary()
+console.log(userSummary)
