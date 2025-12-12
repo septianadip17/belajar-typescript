@@ -28,7 +28,25 @@ function getProductById(id: number): Product | undefined {
   return undefined
 }
 
+// add to cart
+function addToCart(productId: number, quantity: number): string {
+  if (quantity <= 0) {
+    return "Invalid quantity"
+  }
+  for (const product of products) {
+    if (product.id === productId) {
+      return "Product not found"
+    } else if (product.stock <= quantity) {
+      return "Out of stock"
+    }
+  }
+  return "Added to cart"
+}
 
 // check product id
 const checkProductId = getProductById(1)
 console.log(checkProductId)
+
+// add to cart
+
+const addCart = addToCart(1, 2)
