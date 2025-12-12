@@ -18,3 +18,17 @@ type CartItem = {
 
 var cart: CartItem[] = [];
 
+// get product by id
+function getProductById(id: number): Product | undefined {
+  for (const product of products) {
+    if (product.id === id) {
+      return product
+    }
+  }
+  return undefined
+}
+
+
+// check product id
+const checkProductId = getProductById(1)
+console.log(checkProductId)
