@@ -41,9 +41,7 @@ function addToCart(productId: number, quantity: number): string {
   if (quantity > product.stock) {
     return "Out of stock";
   }
-
   const existingItemInCart = cart.find((item) => item.productId === productId);
-
   if (existingItemInCart) {
     existingItemInCart.quantity += quantity;
   } else {
@@ -52,10 +50,11 @@ function addToCart(productId: number, quantity: number): string {
       quantity: quantity,
     });
   }
-
+  product.stock -= quantity;
   return "Added to cart";
 }
 
+// remove from cart
 function removeFromCart(productId: number): string {
   const productExists = cart.find((item) => item.productId === productId)
   if (!productExists) {
@@ -65,16 +64,34 @@ function removeFromCart(productId: number): string {
   return "Removed from cart"
 }
 
+// cart total
+function getCartTotal(): number {
+  let totalPayment = 0;
+  for (const item of cart) {
+    const productDetail = products.find((p) => p.id === item.productId);
+    if (productDetail) {
+      const subtotal = productDetail.price * item.quantity;
+      totalPayment += subtotal;
+    }
+  }
+  return totalPayment;
+}
+
+
 // // check product id
 // const checkProductId = getProductById(11)
 // console.log(checkProductId)
 
-// add to cart
-const addCart = addToCart(1, 5)
-console.log(addCart)
-console.log(cart)
+// // add to cart
+// const addCart = addToCart(1, 5)
+// console.log(addCart)
+// console.log(cart)
 
-// remove from cart
-const removeCart = removeFromCart(1)
-console.log(removeCart)
-console.log(cart)
+// // remove from cart
+// const removeCart = removeFromCart(1)
+// console.log(removeCart)
+// console.log(cart)
+
+// get cart total
+console.log("Total Belanja: Rp.", getCartTotal());
+console.log(getProductById(1))
