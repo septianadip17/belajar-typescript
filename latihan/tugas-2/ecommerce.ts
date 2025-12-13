@@ -20,12 +20,13 @@ var cart: CartItem[] = [];
 
 // get product by id
 function getProductById(id: number): Product | undefined {
-  for (const product of products) {
-    if (product.id === id) {
-      return product
-    }
-  }
-  return undefined
+  // for (const product of products) {
+  //   if (product.id === id) {
+  //     return product
+  //   }
+  // }
+  // return undefined
+  return products.find((product) => product.id === id);
 }
 
 // add to cart
@@ -56,7 +57,7 @@ function addToCart(productId: number, quantity: number): string {
 }
 
 // check product id
-const checkProductId = getProductById(1)
+const checkProductId = getProductById(11)
 console.log(checkProductId)
 
 // add to cart
