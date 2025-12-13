@@ -56,12 +56,25 @@ function addToCart(productId: number, quantity: number): string {
   return "Added to cart";
 }
 
-// check product id
-const checkProductId = getProductById(11)
-console.log(checkProductId)
+function removeFromCart(productId: number): string {
+  const productExists = cart.find((item) => item.productId === productId)
+  if (!productExists) {
+    return "Product not in cart"
+  }
+  cart = cart.filter((item) => item.quantity - 1);
+  return "Removed from cart"
+}
+
+// // check product id
+// const checkProductId = getProductById(11)
+// console.log(checkProductId)
 
 // add to cart
-
 const addCart = addToCart(1, 5)
 console.log(addCart)
+console.log(cart)
+
+// remove from cart
+const removeCart = removeFromCart(1)
+console.log(removeCart)
 console.log(cart)
