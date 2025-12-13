@@ -31,16 +31,28 @@ function getProductById(id: number): Product | undefined {
 // add to cart
 function addToCart(productId: number, quantity: number): string {
   if (quantity <= 0) {
-    return "Invalid quantity"
+    return "Invalid quantity";
   }
-  for (const product of products) {
-    if (product.id === productId) {
-      return "Product not found"
-    } else if (product.stock <= quantity) {
-      return "Out of stock"
-    }
+  const product = getProductById(productId);
+  if (!product) {
+    return "Product not found";
   }
-  return "Added to cart"
+  if (quantity > product.stock) {
+    return "Out of stock";
+  }
+
+  const existingItemInCart = cart.find((item) => item.productId === productId);
+
+  if (existingItemInCart) {
+    existingItemInCart.quantity += quantity;
+  } else {
+    cart.push({
+      productId: productId,
+      quantity: quantity,
+    });
+  }
+
+  return "Added to cart";
 }
 
 // check product id
@@ -49,4 +61,6 @@ console.log(checkProductId)
 
 // add to cart
 
-const addCart = addToCart(1, 2)
+const addCart = addToCart(1, 5)
+console.log(addCart)
+console.log(cart)
