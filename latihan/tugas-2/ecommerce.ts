@@ -91,21 +91,37 @@ function checkout(): string {
   return "Checkout success";
 }
 
+// get summary
+function getProductSummary(): string[] {
+  let result: string[] = []; 
+  for (const product of products) {
+    const text = `${product.name} - Rp${product.price} (Stock: ${product.stock})`;
+    result.push(text);
+  }
+  return result;
+}
 
-// // check product id
-// const checkProductId = getProductById(11)
-// console.log(checkProductId)
 
-// // add to cart
-// const addCart = addToCart(1, 5)
-// console.log(addCart)
-// console.log(cart)
 
-// // remove from cart
-// const removeCart = removeFromCart(1)
-// console.log(removeCart)
-// console.log(cart)
+// check product id
+const checkProductId = getProductById(11)
+console.log(checkProductId)
 
-// // get cart total
+// add to cart
+const addCart = addToCart(1, 5)
+console.log(addCart)
+console.log(cart)
+
+// remove from cart
+const removeCart = removeFromCart(1)
+console.log(removeCart)
+console.log(cart)
+
+// get cart total
 console.log("Total Belanja: Rp.", getCartTotal());
+
+// checkout
 console.log(checkout())
+
+// get summary
+console.log(getProductSummary)
