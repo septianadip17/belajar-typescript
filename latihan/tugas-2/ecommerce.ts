@@ -50,7 +50,6 @@ function addToCart(productId: number, quantity: number): string {
       quantity: quantity,
     });
   }
-  product.stock -= quantity;
   return "Added to cart";
 }
 
@@ -77,6 +76,21 @@ function getCartTotal(): number {
   return totalPayment;
 }
 
+// checkout
+function checkout(): string {
+  if (cart.length === 0) {
+    return "Cart is empty";
+  }
+  for (const item of cart) {
+    const product = getProductById(item.productId);
+    if (product) {
+      product.stock -= item.quantity;
+    }
+  }
+  cart = [];
+  return "Checkout success";
+}
+
 
 // // check product id
 // const checkProductId = getProductById(11)
@@ -92,6 +106,6 @@ function getCartTotal(): number {
 // console.log(removeCart)
 // console.log(cart)
 
-// get cart total
+// // get cart total
 console.log("Total Belanja: Rp.", getCartTotal());
-console.log(getProductById(1))
+console.log(checkout())
