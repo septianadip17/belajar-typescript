@@ -104,12 +104,15 @@ function getProductSummary(): string[] {
 
 
 // check product id
-const checkProductId = getProductById(11)
+const checkProductId = getProductById(1)
+console.log(getProductById(2))
+console.log(getProductById(3))
 console.log(checkProductId)
 
 // add to cart
 const addCart = addToCart(1, 5)
 console.log(addCart)
+console.log(addToCart(2,10))
 console.log(cart)
 
 // remove from cart
@@ -124,4 +127,4 @@ console.log("Total Belanja: Rp.", getCartTotal());
 console.log(checkout())
 
 // get summary
-console.log(getProductSummary)
+console.log(getProductSummary())
