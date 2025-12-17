@@ -59,8 +59,8 @@ function removeFromCart(productId: number): string {
   if (!productExists) {
     return "Product not in cart"
   }
-  cart = cart.filter((item) => item.quantity - 1);
-  return "Removed from cart"
+  cart = cart.filter((item) => item.productId - productId);
+  return (`Removed from cart`)
 }
 
 // cart total
@@ -103,20 +103,21 @@ function getProductSummary(): string[] {
 
 
 
-// check product id
-const checkProductId = getProductById(1)
-console.log(getProductById(2))
-console.log(getProductById(3))
-console.log(checkProductId)
+// // check product id
+// const checkProductId = getProductById(1)
+// console.log(getProductById(2))
+// console.log(getProductById(3))
+// console.log(checkProductId)
 
 // add to cart
-const addCart = addToCart(1, 5)
+const addCart = addToCart(2, 5)
+const addCart2 = addToCart(3, 5)
 console.log(addCart)
-console.log(addToCart(2,10))
+console.log(addCart2)
 console.log(cart)
 
 // remove from cart
-const removeCart = removeFromCart(1)
+const removeCart = removeFromCart(2)
 console.log(removeCart)
 console.log(cart)
 
@@ -125,6 +126,7 @@ console.log("Total Belanja: Rp.", getCartTotal());
 
 // checkout
 console.log(checkout())
+console.log(cart)
 
 // get summary
 console.log(getProductSummary())
