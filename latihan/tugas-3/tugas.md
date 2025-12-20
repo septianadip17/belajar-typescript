@@ -69,3 +69,18 @@ Rules:
 -  Jika sukses:
 -  -> ubah status ke CANCELED
 -  -> return "Order canceled"
+
+# Final (Tugas 6)
+
+Order summary
+```ts
+⁠ getOrderSummary(): string[] ⁠
+```
+
+Expected output:
+```ts
+⁠[
+  "Order #1 - PENDING",
+  "Order #2 - PAID"
+] ⁠
+```
