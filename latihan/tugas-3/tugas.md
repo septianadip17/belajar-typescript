@@ -1,6 +1,6 @@
 # Tugas 1
 
-Get product by id
+### Get product by id
 
 ```ts
 ⁠ getProductById(productId: number): Product | undefined ⁠
@@ -12,7 +12,7 @@ Rules:
 
 # Tugas 2
 
-Create order
+### Create order
 
 ```ts
 ⁠ createOrder(items: OrderItem[]): string | Order ⁠
@@ -29,7 +29,7 @@ Rules:
 
 # Tugas 3
 
-Calculate order total
+### Calculate order total
 
 ```ts
 ⁠ calculateOrderTotal(orderId: number): number | string ⁠
@@ -41,7 +41,7 @@ Rules:
 
 # Tugas 4
 
-Pay order
+### Pay order
 
 ```ts
 ⁠ payOrder(orderId: number): string ⁠
@@ -72,7 +72,7 @@ Rules:
 
 # Final (Tugas 6)
 
-Order summary
+### Order summary
 ```ts
 ⁠ getOrderSummary(): string[] ⁠
 ```
