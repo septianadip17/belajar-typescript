@@ -32,12 +32,12 @@ let orders: Order[] = [];
 let orderCounter = 1;
 
 
-// get product by id
+// function get product by id
 function getProductById(productId: number): Product | undefined {
   return products.find((product) => product.id === productId);
 }
 
-// create order
+// function create order
 function createOrder(items: OrderItem[]): string | Order {
   if (items.length === 0) {
     return "Order items required";
@@ -65,35 +65,15 @@ function createOrder(items: OrderItem[]): string | Order {
 }
 
 
-const resultSuccess = createOrder([
-  { productId: 1, quantity: 1 },
-  { productId: 2, quantity: 2 }
+
+
+
+// get product by id
+const getProduct = getProductById(1);
+console.log(getProduct);
+
+// create order
+const createAnOrder = createOrder([
+  { productId: 1, quantity: 1 }
 ]);
-console.log("Success:", resultSuccess);
-
-// B. Gagal: Items kosong
-console.log("Empty:", createOrder([]));
-// Output: "Order items required"
-
-// C. Gagal: Product ID ngawur (misal ID 99)
-console.log("Not Found:", createOrder([{ productId: 99, quantity: 1 }]));
-// Output: "Product not found"
-
-// D. Gagal: Stok kurang (Beli 21 Mouse, padahal stok cuma 20)
-console.log("Stock:", createOrder([{ productId: 3, quantity: 21 }]));
-// Output: "Insufficient stock"
-
-
-
-
-
-
-
-
-
-// const found = getProductById(1);
-// console.log("Ditemukan:", found);
-
-// const notFound = getProductById(99);
-// console.log("Tidak Ditemukan:", notFound);
-
+console.log(createAnOrder);
