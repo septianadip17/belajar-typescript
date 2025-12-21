@@ -78,6 +78,32 @@ function calculateOrderTotal(orderId: number): number | string {
   return total;
 }
 
+// function pay order
+function payOrder(orderId: number): string {
+  const order = orders.find((o) => o.id === orderId);
+
+  if (!order) {
+    return "Order not found";
+  }
+
+  if (order.status !== OrderStatus.PENDING) {
+    return "Order cannot be paid";
+  }
+
+  for (const item of order.items) {
+    const product = products.find((p) => p.id === item.productId);
+
+    if (product) {
+      product.stock -= item.quantity;
+    }
+  }
+
+  order.status = OrderStatus.PAID;
+
+  return "Payment success";
+}
+
+
 
 
 // get product by id
@@ -93,3 +119,7 @@ console.log(createAnOrder);
 // order total
 const orderTotal = calculateOrderTotal(1);
 console.log(orderTotal);
+
+// pay order
+const letsPay = payOrder(1)
+console.log(letsPay);
