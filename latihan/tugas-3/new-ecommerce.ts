@@ -81,15 +81,12 @@ function calculateOrderTotal(orderId: number): number | string {
 // function pay order
 function payOrder(orderId: number): string {
   const order = orders.find((o) => o.id === orderId);
-
   if (!order) {
     return "Order not found";
   }
-
   if (order.status !== OrderStatus.PENDING) {
     return "Order cannot be paid";
   }
-
   for (const item of order.items) {
     const product = products.find((p) => p.id === item.productId);
 
@@ -97,11 +94,29 @@ function payOrder(orderId: number): string {
       product.stock -= item.quantity;
     }
   }
-
   order.status = OrderStatus.PAID;
-
   return "Payment success";
 }
+
+// function cancel order
+function cancelOrder(orderId: number): string {
+  const order = orders.find((o) => o.id === orderId);
+
+  if (!order) {
+    return "Order not found";
+  }
+
+  if (order.status === OrderStatus.PAID) {
+    return "Paid order cannot be canceled";
+  }
+
+  order.status = OrderStatus.CANCELED;
+
+  return "Order canceled";
+}
+
+
+
 
 
 
@@ -120,6 +135,10 @@ console.log(createAnOrder);
 const orderTotal = calculateOrderTotal(1);
 console.log(orderTotal);
 
-// pay order
-const letsPay = payOrder(1)
-console.log(letsPay);
+// // pay order
+// const letsPay = payOrder(1)
+// console.log(letsPay);
+
+// cancel order
+const cancel = cancelOrder(1)
+console.log(cancel);
