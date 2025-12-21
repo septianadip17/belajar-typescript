@@ -115,6 +115,12 @@ function cancelOrder(orderId: number): string {
   return "Order canceled";
 }
 
+// function order summary
+function getOrderSummary(): string[] {
+  return orders.map((order) => `Order #${order.id} - ${order.status}`);
+}
+
+
 
 
 
@@ -142,3 +148,7 @@ console.log(orderTotal);
 // cancel order
 const cancel = cancelOrder(1)
 console.log(cancel);
+
+// order summary
+const summary = getOrderSummary();
+console.log(summary);
