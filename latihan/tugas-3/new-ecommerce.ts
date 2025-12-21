@@ -123,10 +123,6 @@ function getOrderSummary(): string[] {
 
 
 
-
-
-
-
 // get product by id
 const getProduct = getProductById(1);
 console.log(getProduct);
