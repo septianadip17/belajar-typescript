@@ -57,7 +57,7 @@ Rules:
 
 # Tugas 5
 
-Cancel order
+### Cancel order
 
 ```ts
 ⁠ cancelOrder(orderId: number): string ⁠
