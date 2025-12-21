@@ -30,3 +30,14 @@ type Order = {
 
 let orders: Order[] = [];
 let orderCounter = 1;
+
+function getProductById(productId: number): Product | undefined {
+  return products.find((product) => product.id === productId);
+}
+
+
+const found = getProductById(1);
+console.log("Ditemukan:", found);
+
+const notFound = getProductById(99);
+console.log("Tidak Ditemukan:", notFound); 
