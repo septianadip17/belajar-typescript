@@ -64,7 +64,19 @@ function createOrder(items: OrderItem[]): string | Order {
   return newOrder;
 }
 
-
+// function calculate order total
+function calculateOrderTotal(orderId: number): number | string {
+  const order = orders.find((o) => o.id === orderId);
+  if (!order) {
+    return "Order not found";
+  }
+  const total = order.items.reduce((acc, item) => {
+    const product = products.find((p) => p.id === item.productId);
+    const price = product ? product.price : 0;
+    return acc + (price * item.quantity);
+  }, 0);
+  return total;
+}
 
 
 
@@ -77,3 +89,7 @@ const createAnOrder = createOrder([
   { productId: 1, quantity: 1 }
 ]);
 console.log(createAnOrder);
+
+// order total
+const orderTotal = calculateOrderTotal(1);
+console.log(orderTotal);
