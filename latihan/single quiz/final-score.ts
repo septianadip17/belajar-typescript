@@ -1,7 +1,15 @@
-function getFinalScore(score: number, bonus: number, penalty: number): number | string{
+function getFinalScore(score: number, bonus: number, penalty: number): number | string {
   let finalScore = 0
-  if(score < 0 || bonus < 0 || penalty < 0){
-    "invalid input"
+  finalScore = score + bonus - penalty
+  if (score < 0 || bonus < 0 || penalty < 0) {
+    return "invalid input"
+  } else if (finalScore < 0) {
+    return 0
+  } else if (finalScore > 100) {
+    return 100
   }
-  return ""
+  return finalScore
 }
+
+const ipalScore = getFinalScore(100, 20, 130)
+console.log(ipalScore)
