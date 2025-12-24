@@ -18,9 +18,29 @@ enum TransactionStatus {
 
 type Transaction = {
   id: number; fromId: number;
-  told: number; amount: number; fee: number;
+  toId: number; amount: number; fee: number;
   status: TransactionStatus;
 }
-  
+
 let transactions: Transaction[] = [];
 let transactionCounter = 1;
+
+
+// function get account by id
+function getAccountById(accountId: number): Account | undefined {
+  for (const account of accounts) {
+    if (account.id === accountId) {
+      return account;
+    }
+  }
+  return undefined;
+}
+
+
+
+
+
+
+// get account by id
+const getAccount = getAccountById(2)
+console.log(getAccount)
