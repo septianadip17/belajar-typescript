@@ -147,18 +147,14 @@ function cancelTransfer(transactionId: number): string {
       if (trx.status !== TransactionStatus.HOLD) {
         return "Transaction cannot be canceled";
       }
-
       for (const sender of accounts) {
         if (sender.id === trx.fromId) {
           const totalRelease = trx.amount + trx.fee;
           sender.holdBalance -= totalRelease;
-
           trx.status = TransactionStatus.CANCELED;
-
           return "Transfer canceled";
         }
       }
-
       return "Sender account not found";
     }
   }
@@ -166,8 +162,18 @@ function cancelTransfer(transactionId: number): string {
   return "Transaction not found";
 }
 
+// function transaction summary
+function getTransactionSummary(): string[] {
+  let summary: string[] = [];
 
+  for (const trx of transactions) {
+    const line = `TX#${trx.id} - ${trx.status} - Rp${trx.amount} (Fee: Rp${trx.fee})`;
 
+    summary.push(line);
+  }
+
+  return summary;
+}
 
 // get account by account id
 const getAccount = getAccountById(2);
@@ -188,3 +194,7 @@ console.log(trx1);
 // cancel transfer
 const cancel = cancelTransfer(1)
 console.log(cancel)
+
+// transaction summary
+const reports = getTransactionSummary();
+console.log(reports);
