@@ -98,6 +98,51 @@ function holdMoney(fromId: number, toId: number, amount: number): string | Trans
   return newTransaction;
 }
 
+// function complete transfer
+function completeTransfer(transactionId: number): string {
+  for (const trx of transactions) {
+    if (trx.id === transactionId) {
+      if (trx.status !== TransactionStatus.HOLD) {
+        return "Transaction cannot be completed";
+      }
+      let senderFound: Account | undefined;
+      let receiverFound: Account | undefined;
+
+      for (const account of accounts) {
+        if (account.id === trx.fromId) {
+          senderFound = account;
+        }
+      }
+
+      for (const account of accounts) {
+        if (account.id === trx.toId) {
+          receiverFound = account;
+        }
+      }
+
+      if (!senderFound || !receiverFound) {
+        return "Account not found";
+      }
+
+      const totalDeduction = trx.amount + trx.fee;
+
+      senderFound.balance -= totalDeduction;
+      senderFound.holdBalance -= totalDeduction;
+
+      receiverFound.balance += trx.amount;
+
+      trx.status = TransactionStatus.COMPLETED;
+
+      return "Transfer completed";
+    }
+  }
+
+  return "Transaction not found";
+}
+
+
+
+
 // get account by account id
 const getAccount = getAccountById(2);
 console.log(getAccount);
@@ -107,5 +152,9 @@ const userBalance = checkBalance(1);
 console.log(userBalance);
 
 // hold money
-const trx1 = holdMoney(1, 3, 100000);
+const trx1 = holdMoney(1, 2, 100000);
 console.log(trx1);
+
+// complete transfer
+const complete = completeTransfer(1)
+console.log(complete)
