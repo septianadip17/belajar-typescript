@@ -37,14 +37,24 @@ function getAccountById(accountId: number): Account | undefined {
 }
 
 // function check balance
-function checkBalance(accountId: number): number | string{
-  return 1
+function checkBalance(accountId: number): number | string {
+  for (const account of accounts) {
+    if (account.id === accountId) {
+      const availableBalance = account.balance - account.holdBalance;
+      return availableBalance;
+    }
+  }
+  return "Account not found";
 }
 
 
 
 
 
-// get account by id
+// get account by account id
 const getAccount = getAccountById(2)
 console.log(getAccount)
+
+// check balance by account id
+const userBalance = checkBalance(1)
+console.log(userBalance)
