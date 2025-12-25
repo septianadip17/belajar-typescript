@@ -165,10 +165,8 @@ function cancelTransfer(transactionId: number): string {
 // function transaction summary
 function getTransactionSummary(): string[] {
   let summary: string[] = [];
-
   for (const trx of transactions) {
     const line = `TX#${trx.id} - ${trx.status} - Rp${trx.amount} (Fee: Rp${trx.fee})`;
-
     summary.push(line);
   }
 
