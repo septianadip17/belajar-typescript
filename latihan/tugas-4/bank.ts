@@ -140,6 +140,32 @@ function completeTransfer(transactionId: number): string {
   return "Transaction not found";
 }
 
+// function cancel transfer
+function cancelTransfer(transactionId: number): string {
+  for (const trx of transactions) {
+    if (trx.id === transactionId) {
+      if (trx.status !== TransactionStatus.HOLD) {
+        return "Transaction cannot be canceled";
+      }
+
+      for (const sender of accounts) {
+        if (sender.id === trx.fromId) {
+          const totalRelease = trx.amount + trx.fee;
+          sender.holdBalance -= totalRelease;
+
+          trx.status = TransactionStatus.CANCELED;
+
+          return "Transfer canceled";
+        }
+      }
+
+      return "Sender account not found";
+    }
+  }
+
+  return "Transaction not found";
+}
+
 
 
 
@@ -155,6 +181,10 @@ console.log(userBalance);
 const trx1 = holdMoney(1, 2, 100000);
 console.log(trx1);
 
-// complete transfer
-const complete = completeTransfer(1)
-console.log(complete)
+// // complete transfer
+// const complete = completeTransfer(1)
+// console.log(complete)
+
+// cancel transfer
+const cancel = cancelTransfer(1)
+console.log(cancel)
