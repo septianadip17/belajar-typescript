@@ -36,6 +36,10 @@ function getAccountById(accountId: number): Account | undefined {
   return undefined;
 }
 
+// function check balance
+function checkBalance(accountId: number): number | string{
+  return 1
+}
 
 
 
