@@ -68,7 +68,6 @@ function holdMoney(fromId: number, toId: number, amount: number): string | Trans
     if (account.id === toId) {
       receiver = account;
     }
-    // account not found validation
   }
   if (!sender || !receiver) {
     return "Account not found";
