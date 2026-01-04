@@ -174,25 +174,25 @@ function getTransactionSummary(): string[] {
 }
 
 // get account by account id
-const getAccount = getAccountById(2);
+const getAccount = getAccountById(1);
 console.log(getAccount);
 
 // check balance by account id
-const userBalance = checkBalance(1);
+const userBalance = checkBalance(2);
 console.log(userBalance);
 
 // hold money
-const trx1 = holdMoney(1, 2, 100000);
+const trx1 = holdMoney(1, 2, 20000);
 console.log(trx1);
 
 // // complete transfer
-// const complete = completeTransfer(1)
-// console.log(complete)
+const complete = completeTransfer(1)
+console.log(complete)
 
-// cancel transfer
-const cancel = cancelTransfer(1)
+// // cancel transfer
+const cancel = cancelTransfer(2)
 console.log(cancel)
 
-// transaction summary
+// // transaction summary
 const reports = getTransactionSummary();
 console.log(reports);
