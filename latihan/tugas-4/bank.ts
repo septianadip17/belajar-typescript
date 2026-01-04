@@ -185,14 +185,14 @@ console.log(userBalance);
 const trx1 = holdMoney(1, 2, 20000);
 console.log(trx1);
 
-// // complete transfer
+// complete transfer
 const complete = completeTransfer(1)
 console.log(complete)
 
-// // cancel transfer
+// cancel transfer
 const cancel = cancelTransfer(2)
 console.log(cancel)
 
-// // transaction summary
+// transaction summary
 const reports = getTransactionSummary();
 console.log(reports);
