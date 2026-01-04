@@ -13,6 +13,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "tsx": "^4.21.0"
+    "@nestjs/typeorm": "^11.0.0",
+    "mysql2": "^3.16.0",
+    "tsx": "^4.21.0",
+    "typeorm": "^0.3.28"
   }
 }
