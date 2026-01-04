@@ -13,7 +13,7 @@ import { AppService } from './app.service';
       password: 'rootpassword',
       database: 'coba_nestjs',
       entities: [],
-      synchronize: true,
+      synchronize: false,
     }),
   ],
   controllers: [AppController],

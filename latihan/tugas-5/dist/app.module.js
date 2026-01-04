@@ -25,7 +25,7 @@ exports.AppModule = AppModule = __decorate([
                 password: 'rootpassword',
                 database: 'coba_nestjs',
                 entities: [],
-                synchronize: true,
+                synchronize: false,
             }),
         ],
         controllers: [app_controller_1.AppController],
