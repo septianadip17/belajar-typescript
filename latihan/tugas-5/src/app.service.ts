@@ -18,7 +18,7 @@ export class AppService {
 
       console.log('Hasil Query:', result);
       return {
-        status: 'OK',
+        status: 'yeay!',
         message: 'Koneksi Database Berhasil!',
         data: result,
       };

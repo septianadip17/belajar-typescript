@@ -25,7 +25,7 @@ let AppService = class AppService {
             const result = await this.dataSource.query('SELECT 1 + 1 AS sum');
             console.log('Hasil Query:', result);
             return {
-                status: 'OK',
+                status: 'yeay!',
                 message: 'Koneksi Database Berhasil!',
                 data: result,
             };
