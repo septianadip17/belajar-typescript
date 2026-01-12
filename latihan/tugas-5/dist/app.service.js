@@ -55,7 +55,7 @@ let AppService = class AppService {
     }
     async getUserById(id) {
         const query = `SELECT id, name, address, age, jobs, created_at FROM users WHERE id = ?`;
-        const rawData = await this.dataSource.query(query);
+        const rawData = await this.dataSource.query(query, [id]);
         const users = rawData.map(raw => {
             const user = {};
             user.id = raw.id;
