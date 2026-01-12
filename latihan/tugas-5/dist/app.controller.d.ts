@@ -14,4 +14,6 @@ export declare class AppController {
         error: any;
         data?: undefined;
     }>;
+    getAllUsers(): Promise<import("./user.interface").UserRow[]>;
+    getUserById(id: string): Promise<import("./user.interface").UserRow[]>;
 }

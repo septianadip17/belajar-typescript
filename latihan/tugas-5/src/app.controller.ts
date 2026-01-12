@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -12,6 +12,16 @@ export class AppController {
 
   @Get('test-db')
   async testConnection() {
-    return this.appService.checkDatabaseConnection();
+    return await this.appService.checkDatabaseConnection();
+  }
+
+  @Get('user')
+  async getAllUsers() {
+    return await this.appService.getAllUsers();
+  }
+
+  @Get('/user/:id')
+  async getUserById(@Param('id') id: string) {
+    return await this.appService.getUserById(id);
   }
 }

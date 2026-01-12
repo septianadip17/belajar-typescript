@@ -38,6 +38,36 @@ let AppService = class AppService {
             };
         }
     }
+    async getAllUsers() {
+        const query = `SELECT id, name, address, age, jobs, created_at FROM users`;
+        const rawData = await this.dataSource.query(query);
+        const users = rawData.map(raw => {
+            const user = {};
+            user.id = raw.id;
+            user.name = raw.name;
+            user.address = raw.address;
+            user.age = raw.age;
+            user.jobs = raw.jobs;
+            user.created_at = raw.created_at;
+            return user;
+        });
+        return users;
+    }
+    async getUserById(id) {
+        const query = `SELECT id, name, address, age, jobs, created_at FROM users WHERE id = ?`;
+        const rawData = await this.dataSource.query(query);
+        const users = rawData.map(raw => {
+            const user = {};
+            user.id = raw.id;
+            user.name = raw.name;
+            user.address = raw.address;
+            user.age = raw.age;
+            user.jobs = raw.jobs;
+            user.created_at = raw.created_at;
+            return user;
+        });
+        return users;
+    }
 };
 exports.AppService = AppService;
 exports.AppService = AppService = __decorate([
