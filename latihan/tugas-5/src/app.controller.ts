@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { AddUserDto } from './user.model';
 
 @Controller()
 export class AppController {
@@ -23,5 +24,10 @@ export class AppController {
   @Get('/user/:id')
   async getUserById(@Param('id') id: string) {
     return await this.appService.getUserById(id);
+  }
+
+  @Post()
+  async addUser(@Body() payload: AddUserDto) {
+    return await this.appService.addUser(payload);
   }
 }

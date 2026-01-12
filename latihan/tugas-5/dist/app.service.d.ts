@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { UserRow } from './user.interface';
+import { AddUserDto } from './user.model';
 export declare class AppService {
     private dataSource;
     constructor(dataSource: DataSource);
@@ -12,9 +13,10 @@ export declare class AppService {
     } | {
         status: string;
         message: string;
-        error: any;
+        error: string;
         data?: undefined;
     }>;
     getAllUsers(): Promise<UserRow[]>;
     getUserById(id: string): Promise<UserRow[]>;
+    addUser(payload: AddUserDto): Promise<string>;
 }

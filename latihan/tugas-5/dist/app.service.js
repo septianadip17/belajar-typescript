@@ -12,13 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
+const date_fns_1 = require("date-fns");
 let AppService = class AppService {
     dataSource;
     constructor(dataSource) {
         this.dataSource = dataSource;
     }
     async getHello() {
-        return 'Hello World!';
+        return await 'Hello World!';
     }
     async checkDatabaseConnection() {
         try {
@@ -31,24 +32,25 @@ let AppService = class AppService {
             };
         }
         catch (error) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             return {
                 status: 'Error',
                 message: 'Gagal konek ke database',
-                error: error.message,
+                error: errorMessage,
             };
         }
     }
     async getAllUsers() {
         const query = `SELECT id, name, address, age, jobs, created_at FROM users`;
         const rawData = await this.dataSource.query(query);
-        const users = rawData.map(raw => {
+        const users = rawData.map((raw) => {
             const user = {};
             user.id = raw.id;
             user.name = raw.name;
             user.address = raw.address;
             user.age = raw.age;
             user.jobs = raw.jobs;
-            user.created_at = raw.created_at;
+            user.created_at = (0, date_fns_1.format)(raw.created_at, 'dd-MM-yyyy');
             return user;
         });
         return users;
@@ -56,17 +58,28 @@ let AppService = class AppService {
     async getUserById(id) {
         const query = `SELECT id, name, address, age, jobs, created_at FROM users WHERE id = ?`;
         const rawData = await this.dataSource.query(query, [id]);
-        const users = rawData.map(raw => {
+        const users = rawData.map((raw) => {
             const user = {};
             user.id = raw.id;
             user.name = raw.name;
             user.address = raw.address;
             user.age = raw.age;
             user.jobs = raw.jobs;
-            user.created_at = raw.created_at;
+            user.created_at = (0, date_fns_1.format)(raw.created_at, 'dd-MM-yyyy');
             return user;
         });
         return users;
+    }
+    async addUser(payload) {
+        const query = `INSERT INTO users(name, address, age, jobs) values(?, ?, ?, ?);`;
+        const rawData = await this.dataSource.execute(query, [
+            payload.userName,
+            payload.userAddress,
+            payload.userAge,
+            payload.userJobs,
+        ]);
+        console.log(rawData);
+        return 'berhasil';
     }
 };
 exports.AppService = AppService;

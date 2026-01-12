@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const user_model_1 = require("./user.model");
 let AppController = class AppController {
     appService;
     constructor(appService) {
@@ -31,6 +32,9 @@ let AppController = class AppController {
     }
     async getUserById(id) {
         return await this.appService.getUserById(id);
+    }
+    async addUser(payload) {
+        return await this.appService.addUser(payload);
     }
 };
 exports.AppController = AppController;
@@ -59,6 +63,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "getUserById", null);
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_model_1.AddUserDto]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "addUser", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])

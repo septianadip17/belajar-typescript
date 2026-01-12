@@ -1,4 +1,5 @@
 import { AppService } from './app.service';
+import { AddUserDto } from './user.model';
 export declare class AppController {
     private readonly appService;
     constructor(appService: AppService);
@@ -11,9 +12,10 @@ export declare class AppController {
     } | {
         status: string;
         message: string;
-        error: any;
+        error: string;
         data?: undefined;
     }>;
     getAllUsers(): Promise<import("./user.interface").UserRow[]>;
     getUserById(id: string): Promise<import("./user.interface").UserRow[]>;
+    addUser(payload: AddUserDto): Promise<string>;
 }
