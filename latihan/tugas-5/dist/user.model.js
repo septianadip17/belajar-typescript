@@ -11,38 +11,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddUserDto = void 0;
 const class_validator_1 = require("class-validator");
-const class_transformer_1 = require("class-transformer");
 class AddUserDto {
-    userName;
-    userAddress;
-    userAge;
-    userJobs;
-    constructor(userName, userAddress, userAge, userJobs) {
-        this.userName = userName;
-        this.userAddress = userAddress;
-        this.userAge = userAge;
-        this.userJobs = userJobs;
-    }
+    name;
+    address;
+    age;
+    jobs;
 }
 exports.AddUserDto = AddUserDto;
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_transformer_1.Expose)({ name: 'name' }),
     __metadata("design:type", String)
-], AddUserDto.prototype, "userName", void 0);
+], AddUserDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_transformer_1.Expose)({ name: 'address' }),
     __metadata("design:type", String)
-], AddUserDto.prototype, "userAddress", void 0);
+], AddUserDto.prototype, "address", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
-    (0, class_transformer_1.Expose)({ name: 'age' }),
     __metadata("design:type", Number)
-], AddUserDto.prototype, "userAge", void 0);
+], AddUserDto.prototype, "age", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_transformer_1.Expose)({ name: 'jobs' }),
     __metadata("design:type", String)
-], AddUserDto.prototype, "userJobs", void 0);
+], AddUserDto.prototype, "jobs", void 0);
 //# sourceMappingURL=user.model.js.map

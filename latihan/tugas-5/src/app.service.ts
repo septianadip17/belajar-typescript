@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/await-thenable */
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { UserRow } from './user.interface';
-import { format } from 'date-fns';
 import { AddUserDto } from './user.model';
 
 @Injectable()
@@ -46,7 +44,7 @@ export class AppService {
       user.address = raw.address;
       user.age = raw.age;
       user.jobs = raw.jobs;
-      user.created_at = format(raw.created_at, 'dd-MM-yyyy');
+      user.created_at = raw.created_at;
       return user;
     });
     return users;
@@ -62,21 +60,28 @@ export class AppService {
       user.address = raw.address;
       user.age = raw.age;
       user.jobs = raw.jobs;
-      user.created_at = format(raw.created_at, 'dd-MM-yyyy');
+      user.created_at = raw.created_at;
       return user;
     });
     return users;
   }
 
   async addUser(payload: AddUserDto) {
-    const query = `INSERT INTO users(name, address, age, jobs) values(?, ?, ?, ?);`;
-    const rawData = await this.dataSource.execute(query, [
-      payload.userName,
-      payload.userAddress,
-      payload.userAge,
-      payload.userJobs,
-    ]);
-    console.log(rawData);
-    return 'berhasil';
+    try {
+      const query = `INSERT INTO users (name, address, age, jobs) VALUES (?, ?, ?, ?);`;
+      const rawData = await this.dataSource.query(query, [
+        payload.name,
+        payload.address,
+        payload.age,
+        payload.jobs,
+      ]);
+      console.log('Sukses:', rawData);
+      return 'berhasil';
+    } catch (error) {
+      console.error('Database Error Detail:', error);
+      throw new BadRequestException(
+        error instanceof Error ? error.message : 'gagal tambah user',
+      );
+    }
   }
 }

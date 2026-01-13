@@ -1,7 +1,6 @@
 export declare class AddUserDto {
-    userName: string;
-    userAddress: string;
-    userAge: number;
-    userJobs: string;
-    constructor(userName: string, userAddress: string, userAge: number, userJobs: string);
+    name: string;
+    address: string;
+    age: number;
+    jobs: string;
 }

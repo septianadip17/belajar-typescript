@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
-const date_fns_1 = require("date-fns");
 let AppService = class AppService {
     dataSource;
     constructor(dataSource) {
@@ -50,7 +49,7 @@ let AppService = class AppService {
             user.address = raw.address;
             user.age = raw.age;
             user.jobs = raw.jobs;
-            user.created_at = (0, date_fns_1.format)(raw.created_at, 'dd-MM-yyyy');
+            user.created_at = raw.created_at;
             return user;
         });
         return users;
@@ -65,21 +64,27 @@ let AppService = class AppService {
             user.address = raw.address;
             user.age = raw.age;
             user.jobs = raw.jobs;
-            user.created_at = (0, date_fns_1.format)(raw.created_at, 'dd-MM-yyyy');
+            user.created_at = raw.created_at;
             return user;
         });
         return users;
     }
     async addUser(payload) {
-        const query = `INSERT INTO users(name, address, age, jobs) values(?, ?, ?, ?);`;
-        const rawData = await this.dataSource.execute(query, [
-            payload.userName,
-            payload.userAddress,
-            payload.userAge,
-            payload.userJobs,
-        ]);
-        console.log(rawData);
-        return 'berhasil';
+        try {
+            const query = `INSERT INTO users (name, address, age, jobs) VALUES (?, ?, ?, ?);`;
+            const rawData = await this.dataSource.query(query, [
+                payload.name,
+                payload.address,
+                payload.age,
+                payload.jobs,
+            ]);
+            console.log('Sukses:', rawData);
+            return 'berhasil';
+        }
+        catch (error) {
+            console.error('Database Error Detail:', error);
+            throw new common_1.BadRequestException(error instanceof Error ? error.message : 'gagal tambah user');
+        }
     }
 };
 exports.AppService = AppService;
