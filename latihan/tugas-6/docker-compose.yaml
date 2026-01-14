@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: tugas-5
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: saldo_orang
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
