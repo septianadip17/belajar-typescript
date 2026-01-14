@@ -1,90 +1,29 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/await-thenable */
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { DataSource } from 'typeorm';
-import { UserRow } from './user.interface';
+import { Dependencies, Injectable } from '@nestjs/common';
+import { AppRepository } from './app.repository';
 import { AddUserDto } from './user.model';
 
 @Injectable()
+@Dependencies(AppRepository)
 export class AppService {
-  constructor(private dataSource: DataSource) {}
+  constructor(private appRepository: AppRepository) {}
 
   async getHello(): Promise<string> {
-    return await 'Hello World!';
+    return await this.appRepository.getHello();
   }
 
   async checkDatabaseConnection() {
-    try {
-      const result = await this.dataSource.query('SELECT 1 + 1 AS sum');
-      console.log('Hasil Query:', result);
-      return {
-        status: 'yeay!',
-        message: 'Koneksi Database Berhasil!',
-        data: result,
-      };
-    } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Unknown error';
-      return {
-        status: 'Error',
-        message: 'Gagal konek ke database',
-        error: errorMessage,
-      };
-    }
+    return await this.appRepository.checkDatabaseConnection();
   }
 
   async getAllUsers() {
-    const query = `SELECT id, name, address, age, jobs, created_at FROM users`;
-    const rawData: any[] = await this.dataSource.query(query);
-    const users = rawData.map((raw) => {
-      const user = {} as UserRow;
-      user.id = raw.id;
-      user.name = raw.name;
-      user.address = raw.address;
-      user.age = raw.age;
-      user.jobs = raw.jobs;
-      user.created_at = raw.created_at;
-      return user;
-    });
-    return users;
+    return await this.appRepository.getAllUsers();
   }
 
   async getUserById(id: string) {
-    const query = `SELECT id, name, address, age, jobs, created_at FROM users WHERE id = ?`;
-    const rawData: any[] = await this.dataSource.query(query, [id]);
-    const users = rawData.map((raw) => {
-      const user = {} as UserRow;
-      user.id = raw.id;
-      user.name = raw.name;
-      user.address = raw.address;
-      user.age = raw.age;
-      user.jobs = raw.jobs;
-      user.created_at = raw.created_at;
-      return user;
-    });
-    return users;
+    return await this.appRepository.getUserById(id);
   }
 
   async addUser(payload: AddUserDto) {
-    try {
-      const query = `INSERT INTO users (name, address, age, jobs) VALUES (?, ?, ?, ?);`;
-      const rawData = await this.dataSource.query(query, [
-        payload.name,
-        payload.address,
-        payload.age,
-        payload.jobs,
-      ]);
-      console.log('Sukses: ', rawData);
-      return {
-        message: 'berhasil',
-        data: payload,
-      };
-    } catch (error) {
-      console.error('Database Error Detail:', error);
-      throw new BadRequestException(
-        error instanceof Error ? error.message : 'gagal tambah user',
-      );
-    }
+    return await this.appRepository.addUser(payload);
   }
 }

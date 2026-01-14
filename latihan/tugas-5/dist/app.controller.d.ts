@@ -1,7 +1,7 @@
 import { AppService } from './app.service';
 import { AddUserDto } from './user.model';
 export declare class AppController {
-    private readonly appService;
+    private appService;
     constructor(appService: AppService);
     getHello(): Promise<string>;
     testConnection(): Promise<{

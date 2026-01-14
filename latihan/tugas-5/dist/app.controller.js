@@ -72,6 +72,7 @@ __decorate([
 ], AppController.prototype, "addUser", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
+    (0, common_1.Dependencies)(app_service_1.AppService),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map

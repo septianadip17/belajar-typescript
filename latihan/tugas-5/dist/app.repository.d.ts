@@ -1,8 +1,9 @@
-import { AppRepository } from './app.repository';
+import { DataSource } from 'typeorm';
+import { UserRow } from './user.interface';
 import { AddUserDto } from './user.model';
-export declare class AppService {
-    private appRepository;
-    constructor(appRepository: AppRepository);
+export declare class AppRepository {
+    private dataSource;
+    constructor(dataSource: DataSource);
     getHello(): Promise<string>;
     checkDatabaseConnection(): Promise<{
         status: string;
@@ -15,8 +16,8 @@ export declare class AppService {
         error: string;
         data?: undefined;
     }>;
-    getAllUsers(): Promise<import("./user.interface").UserRow[]>;
-    getUserById(id: string): Promise<import("./user.interface").UserRow[]>;
+    getAllUsers(): Promise<UserRow[]>;
+    getUserById(id: string): Promise<UserRow[]>;
     addUser(payload: AddUserDto): Promise<{
         message: string;
         data: AddUserDto;
