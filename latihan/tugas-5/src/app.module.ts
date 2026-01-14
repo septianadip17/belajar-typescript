@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AppRepository } from './app.repository';
+import { AppController } from '../modules/users/app.controller';
+import { AppService } from '../modules/users/app.service';
+import { AppRepository } from '../modules/users/app.repository';
 
 @Module({
   imports: [
