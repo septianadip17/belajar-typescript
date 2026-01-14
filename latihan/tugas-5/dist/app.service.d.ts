@@ -18,5 +18,8 @@ export declare class AppService {
     }>;
     getAllUsers(): Promise<UserRow[]>;
     getUserById(id: string): Promise<UserRow[]>;
-    addUser(payload: AddUserDto): Promise<string>;
+    addUser(payload: AddUserDto): Promise<{
+        message: string;
+        data: AddUserDto;
+    }>;
 }

@@ -78,8 +78,11 @@ let AppService = class AppService {
                 payload.age,
                 payload.jobs,
             ]);
-            console.log('Sukses:', rawData);
-            return 'berhasil';
+            console.log('Sukses: ', rawData);
+            return {
+                message: 'berhasil',
+                data: payload,
+            };
         }
         catch (error) {
             console.error('Database Error Detail:', error);

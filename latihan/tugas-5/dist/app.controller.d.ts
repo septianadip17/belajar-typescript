@@ -17,5 +17,8 @@ export declare class AppController {
     }>;
     getAllUsers(): Promise<import("./user.interface").UserRow[]>;
     getUserById(id: string): Promise<import("./user.interface").UserRow[]>;
-    addUser(payload: AddUserDto): Promise<string>;
+    addUser(payload: AddUserDto): Promise<{
+        message: string;
+        data: AddUserDto;
+    }>;
 }
