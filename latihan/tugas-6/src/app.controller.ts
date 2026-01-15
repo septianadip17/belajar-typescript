@@ -8,4 +8,14 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('/login')
+  loginPage() {
+    return this.appService.loginPage();
+  }
+
+  @Get('test-db')
+  async testConnection() {
+    return await this.appService.checkDatabaseConnection();
+  }
 }
