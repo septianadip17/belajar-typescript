@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './user.entity';
 import { Transaction } from './transaction.entity';
+import { AppRepository } from './app.repository';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import { Transaction } from './transaction.entity';
     TypeOrmModule.forFeature([User, Transaction]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppRepository],
 })
 export class AppModule {}

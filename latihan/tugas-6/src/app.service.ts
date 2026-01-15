@@ -1,29 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { DataSource } from 'typeorm';
+import { AppRepository } from './app.repository'; // Import Repository yang baru kita buat
 
 @Injectable()
 export class AppService {
-  constructor(private dataSource: DataSource) {}
+  // Inject Repository di sini (Bukan DataSource lagi)
+  constructor(private readonly appRepository: AppRepository) {}
 
   getHello(): string {
     return 'Hello World!';
   }
 
-  // --- 1. Function: getUserById ---
-  // Mencari user berdasarkan ID di database
-  async getUserById(id: number) {
-    const query = `SELECT id, name, balance FROM users WHERE id = ?`;
-    const result = await this.dataSource.query(query, [id]);
-
-    if (result.length === 0) {
-      return null;
-    }
-    return result[0];
-  }
-
-  // --- 2. Function: checkBalance ---
+  // --- 1. Cek Saldo ---
   async checkBalance(userId: number) {
-    const user = await this.getUserById(userId);
+    const user = await this.appRepository.findUserById(userId);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -38,76 +27,59 @@ export class AppService {
     };
   }
 
-  // --- 3. Function: topUp ---
+  // --- 2. Top Up ---
   async topUp(userId: number, amount: number) {
     if (amount <= 0) return 'Invalid amount';
 
-    // Cek User Ada atau Tidak
-    const user = await this.getUserById(userId);
+    // Cek User via Repository
+    const user = await this.appRepository.findUserById(userId);
     if (!user) return 'User not found';
 
-    // A. Update Saldo User (Tambah)
-    await this.dataSource.query(
-      `UPDATE users SET balance = balance + ? WHERE id = ?`,
-      [amount, userId],
-    );
+    // A. Update Saldo via Repository
+    await this.appRepository.updateBalance(userId, amount);
 
-    // B. Catat Transaksi
-    // sender = NULL (karena topup dari luar), receiver = userId
-    await this.dataSource.query(
-      `INSERT INTO transactions (sender, receiver, amount, type) VALUES (NULL, ?, ?, 'TOPUP')`,
-      [userId, amount],
-    );
+    // B. Catat Transaksi via Repository
+    await this.appRepository.createTransaction(null, userId, amount, 'TOPUP');
 
     return 'Top up success';
   }
 
-  // --- 4. Function: transfer ---
+  // --- 3. Transfer ---
   async transfer(fromId: number, toId: number, amount: number) {
     if (amount <= 0) return 'Invalid amount';
     if (fromId === toId) return 'Cannot transfer to self';
 
-    // Ambil Data Pengirim & Penerima
-    const sender = await this.getUserById(fromId);
-    const receiver = await this.getUserById(toId);
+    // Ambil Data via Repository
+    const sender = await this.appRepository.findUserById(fromId);
+    const receiver = await this.appRepository.findUserById(toId);
 
-    // Validasi User
+    // Logic Validasi
     if (!sender || !receiver) return 'user not found';
+    if (sender.balance < amount) return 'Insufficient balance';
 
-    // Validasi Saldo Pengirim
-    if (sender.balance < amount) {
-      return 'Insufficient balance';
-    }
+    // Eksekusi via Repository
+    // 1. Kurangi Pengirim (dikali -1 biar berkurang)
+    await this.appRepository.updateBalance(fromId, -amount);
 
-    // Eksekusi Transfer
-    // A. Kurangi Saldo Pengirim
-    await this.dataSource.query(
-      `UPDATE users SET balance = balance - ? WHERE id = ?`,
-      [amount, fromId],
-    );
+    // 2. Tambah Penerima
+    await this.appRepository.updateBalance(toId, amount);
 
-    // B. Tambah Saldo Penerima
-    await this.dataSource.query(
-      `UPDATE users SET balance = balance + ? WHERE id = ?`,
-      [amount, toId],
-    );
-
-    // C. Catat Transaksi (sender = fromId, receiver = toId)
-    await this.dataSource.query(
-      `INSERT INTO transactions (sender, receiver, amount, type) VALUES (?, ?, ?, 'TRANSFER')`,
-      [fromId, toId, amount],
+    // 3. Catat History
+    await this.appRepository.createTransaction(
+      fromId,
+      toId,
+      amount,
+      'TRANSFER',
     );
 
     return 'Transfer success';
   }
 
-  // --- 5. Function: getUserSummary ---
+  // --- 4. Summary ---
   async getUserSummary() {
-    const result = await this.dataSource.query(
-      `SELECT name, balance FROM users`,
-    );
+    const result = await this.appRepository.findAllUsers();
 
-    // Format string sesuai keinginanmu: "Nama - Rp.Saldo"
+    // Mapping data (Logic Bisnis)
     const dataUser: string[] = result.map((user: any) => {
       return `${user.name} - Rp.${user.balance}`;
     });
