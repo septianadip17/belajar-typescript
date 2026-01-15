@@ -19,8 +19,6 @@ export class AppRepository {
 
   // Update saldo (bisa nambah atau kurang tergantung nilai amount)
   async updateBalance(userId: number, amount: number) {
-    // amount positif = nambah, amount negatif = kurang
-    // tapi karena query kita "balance + ?", maka kita kirim angka apa adanya
     await this.dataSource.query(
       `UPDATE users SET balance = balance + ? WHERE id = ?`,
       [amount, userId],

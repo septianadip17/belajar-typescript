@@ -1,5 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { TopUpDto } from './dto/topup.dto';
+import { TransferDto } from './dto/transfer.dto';
 
 @Controller()
 export class AppController {
@@ -18,15 +20,13 @@ export class AppController {
 
   // Endpoint: POST /topup
   @Post('topup')
-  async topUp(@Body() payload: { userId: number; amount: number }) {
+  async topUp(@Body() payload: TopUpDto) {
     return await this.appService.topUp(payload.userId, payload.amount);
   }
 
   // Endpoint: POST /transfer
   @Post('transfer')
-  async transfer(
-    @Body() payload: { fromId: number; toId: number; amount: number },
-  ) {
+  async transfer(@Body() payload: TransferDto) {
     return await this.appService.transfer(
       payload.fromId,
       payload.toId,
