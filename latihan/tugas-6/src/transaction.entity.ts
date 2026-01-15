@@ -10,10 +10,10 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'from_user_id', nullable: true })
+  @Column({ name: 'sender', nullable: true })
   fromUserId: number;
 
-  @Column({ name: 'to_user_id' })
+  @Column({ name: 'receiver' })
   toUserId: number;
 
   @Column()

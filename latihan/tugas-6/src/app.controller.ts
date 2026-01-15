@@ -1,21 +1,42 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
+  getHello() {
     return this.appService.getHello();
   }
 
-  @Get('/login')
-  loginPage() {
-    return this.appService.loginPage();
+  // Endpoint: GET /balance/1
+  @Get('balance/:id')
+  async checkBalance(@Param('id') id: string) {
+    return await this.appService.checkBalance(Number(id));
   }
 
-  @Get('test-db')
-  async testConnection() {
-    return await this.appService.checkDatabaseConnection();
+  // Endpoint: POST /topup
+  @Post('topup')
+  async topUp(@Body() payload: { userId: number; amount: number }) {
+    return await this.appService.topUp(payload.userId, payload.amount);
+  }
+
+  // Endpoint: POST /transfer
+  @Post('transfer')
+  async transfer(
+    @Body() payload: { fromId: number; toId: number; amount: number },
+  ) {
+    return await this.appService.transfer(
+      payload.fromId,
+      payload.toId,
+      payload.amount,
+    );
+  }
+
+  // Endpoint: GET /summary
+  @Get('summary')
+  async getUserSummary() {
+    return await this.appService.getUserSummary();
   }
 }
