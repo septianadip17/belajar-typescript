@@ -11,7 +11,7 @@ export class Transaction {
   id: number;
 
   @Column({ name: 'from_user_id', nullable: true })
-  fromUserId: number; // Boleh NULL karena Top Up
+  fromUserId: number;
 
   @Column({ name: 'to_user_id' })
   toUserId: number;
@@ -23,5 +23,5 @@ export class Transaction {
   type: 'TOPUP' | 'TRANSFER';
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date; // Otomatis terisi saat di-save
+  createdAt: Date;
 }
