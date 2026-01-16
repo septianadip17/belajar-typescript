@@ -9,7 +9,23 @@ export class AppService {
     return 'Hello World!';
   }
 
-  // --- 1. Cek Saldo ---
+  // --- Cek User ID ---
+  async findUserById(id: number) {
+    const user = await this.appRepository.findUserById(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return {
+      message: 'Cek User By ID berhasil',
+      data: {
+        name: user.name,
+        balance: user.balance,
+      },
+    };
+  }
+
+  // --- Cek Saldo ---
   async checkBalance(userId: number) {
     const user = await this.appRepository.findUserById(userId);
     if (!user) {
@@ -25,7 +41,7 @@ export class AppService {
     };
   }
 
-  // --- 2. Top Up ---
+  // --- Top Up ---
   async topUp(userId: number, amount: number) {
     if (amount <= 0) return 'Invalid amount';
     const user = await this.appRepository.findUserById(userId);
@@ -36,7 +52,7 @@ export class AppService {
     return 'Top up success';
   }
 
-  // --- 3. Transfer ---
+  // --- Transfer ---
   async transfer(fromId: number, toId: number, amount: number) {
     if (amount <= 0) return 'Invalid amount';
     if (fromId === toId) return 'Cannot transfer to self';
@@ -56,7 +72,7 @@ export class AppService {
     return 'Transfer success';
   }
 
-  // --- 4. Summary ---
+  // --- Summary ---
   async getUserSummary() {
     const result = await this.appRepository.findAllUsers();
     const dataUser: string[] = result.map((user: any) => {

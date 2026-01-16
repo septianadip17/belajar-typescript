@@ -12,7 +12,13 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  // Endpoint: GET /balance/1
+  // Endpoint: GET /check/:id
+  @Get('check/:id')
+  async findUserById(@Param('id') id: string) {
+    return await this.appService.findUserById(Number(id));
+  }
+
+  // Endpoint: GET /balance/:id
   @Get('balance/:id')
   async checkBalance(@Param('id') id: string) {
     return await this.appService.checkBalance(Number(id));
