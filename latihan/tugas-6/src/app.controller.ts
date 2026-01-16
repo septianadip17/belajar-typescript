@@ -24,6 +24,12 @@ export class AppController {
     return await this.appService.checkBalance(Number(id));
   }
 
+  // Endpoint: Get /users
+  @Get('/users')
+  async findAllusers() {
+    return await this.appService.findAllUsers();
+  }
+
   // Endpoint: POST /topup
   @Post('topup')
   async topUp(@Body() payload: TopUpDto) {

@@ -41,6 +41,11 @@ export class AppService {
     };
   }
 
+  // --- Check All Users ---
+  async findAllUsers() {
+    return await this.appRepository.findAllUsers();
+  }
+
   // --- Top Up ---
   async topUp(userId: number, amount: number) {
     if (amount <= 0) return 'Invalid amount';
