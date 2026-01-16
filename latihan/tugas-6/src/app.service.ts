@@ -15,7 +15,6 @@ export class AppService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-
     return {
       message: 'Cek User By ID berhasil',
       data: {
