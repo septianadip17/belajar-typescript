@@ -23,55 +23,66 @@ let AppService = class AppService {
     }
     async addToCart(productId, quantity) {
         if (quantity <= 0)
-            return 'Invalid quantity';
+            throw new common_1.BadRequestException('Quantity invalid');
         const product = await this.appRepository.findProductById(productId);
         if (!product)
-            return 'Product not found';
-        if (quantity > product.stock)
-            return 'Out of stock';
+            throw new common_1.NotFoundException('Product not found');
+        if (quantity > product.stock) {
+            throw new common_1.BadRequestException(`Stok kurang. Sisa stok: ${product.stock}`);
+        }
         const existingItem = await this.appRepository.findCartItemByProductId(productId);
         if (existingItem) {
-            const newQty = existingItem.quantity + quantity;
-            if (newQty > product.stock)
-                return 'Total quantity exceeds stock';
-            await this.appRepository.updateCartQty(productId, newQty);
+            const totalNewQty = existingItem.quantity + quantity;
+            if (totalNewQty > product.stock) {
+                throw new common_1.BadRequestException('Total quantity melebihi stok tersedia');
+            }
+            await this.appRepository.updateCartQty(productId, totalNewQty);
         }
         else {
             await this.appRepository.addToCart(productId, quantity);
         }
-        return 'Added to cart';
-    }
-    async removeFromCart(productId) {
-        const existingItem = await this.appRepository.findCartItemByProductId(productId);
-        if (!existingItem)
-            return 'Product not in cart';
-        await this.appRepository.removeCartItem(productId);
-        return 'Removed from cart';
+        return { message: 'Berhasil dimasukkan ke keranjang' };
     }
     async getCart() {
         const items = await this.appRepository.findAllCartItems();
         let totalPayment = 0;
-        for (const item of items) {
-            totalPayment += item.price * item.quantity;
-        }
+        const detailItems = items.map((item) => {
+            const subtotal = item.price * item.quantity;
+            totalPayment += subtotal;
+            return {
+                product: item.name,
+                price: item.price,
+                qty: item.quantity,
+                subtotal: subtotal,
+            };
+        });
         return {
-            items: items,
+            items: detailItems,
             totalPayment: totalPayment,
         };
+    }
+    async removeFromCart(productId) {
+        const existingItem = await this.appRepository.findCartItemByProductId(productId);
+        if (!existingItem)
+            throw new common_1.NotFoundException('Barang tidak ada di keranjang');
+        await this.appRepository.removeCartItem(productId);
+        return { message: 'Barang dihapus dari keranjang' };
     }
     async checkout() {
         const cartItems = await this.appRepository.findAllCartItems();
         if (cartItems.length === 0)
-            return 'Cart is empty';
+            throw new common_1.BadRequestException('Keranjang kosong');
         for (const item of cartItems) {
             const product = await this.appRepository.findProductById(item.product_id);
             if (product) {
                 const remainingStock = product.stock - item.quantity;
-                await this.appRepository.updateProductStock(product.id, remainingStock);
+                if (remainingStock >= 0) {
+                    await this.appRepository.updateProductStock(product.id, remainingStock);
+                }
             }
         }
         await this.appRepository.clearCart();
-        return 'Checkout success';
+        return { message: 'Checkout berhasil! Stok sudah dikurangi.' };
     }
 };
 exports.AppService = AppService;

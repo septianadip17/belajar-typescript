@@ -1,4 +1,5 @@
 import { AppService } from './app.service';
+import { AddToCartDto } from './dto/add-to-cart.dto';
 export declare class AppController {
     private readonly appService;
     constructor(appService: AppService);
@@ -7,10 +8,13 @@ export declare class AppController {
         items: any;
         totalPayment: number;
     }>;
-    addToCart(payload: {
-        productId: number;
-        quantity: number;
-    }): Promise<"Invalid quantity" | "Product not found" | "Out of stock" | "Total quantity exceeds stock" | "Added to cart">;
-    removeFromCart(id: string): Promise<"Product not in cart" | "Removed from cart">;
-    checkout(): Promise<"Cart is empty" | "Checkout success">;
+    addToCart(payload: AddToCartDto): Promise<{
+        message: string;
+    }>;
+    removeFromCart(id: string): Promise<{
+        message: string;
+    }>;
+    checkout(): Promise<{
+        message: string;
+    }>;
 }

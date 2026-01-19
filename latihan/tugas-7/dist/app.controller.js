@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
 const app_service_1 = require("./app.service");
+const add_to_cart_dto_1 = require("./dto/add-to-cart.dto");
 let AppController = class AppController {
     appService;
     constructor(appService) {
@@ -53,7 +54,7 @@ __decorate([
     (0, common_1.Post)('cart'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [add_to_cart_dto_1.AddToCartDto]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "addToCart", null);
 __decorate([

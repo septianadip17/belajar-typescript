@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppRepository } from './app.repository';
+import { Product } from './database/entities/product.entity';
+import { CartItem } from './database/entities/cart-item.entity';
 
 @Module({
   imports: [
@@ -13,6 +15,7 @@ import { AppRepository } from './app.repository';
       username: 'root',
       password: 'rootpassword',
       database: 'ecommerce',
+      entities: [Product, CartItem],
       synchronize: false,
     }),
   ],

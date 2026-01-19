@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   BadRequestException,
   Injectable,
@@ -9,88 +10,85 @@ import { AppRepository } from './app.repository';
 export class AppService {
   constructor(private readonly appRepository: AppRepository) {}
 
-  // 1. Get Product Summary
   async getProductSummary() {
     const products = await this.appRepository.findAllProducts();
-    // Format string sesuai kodinganmu
     return products.map(
       (p: any) => `${p.name} - Rp${p.price} (Stock: ${p.stock})`,
     );
   }
 
-  // 2. Add To Cart
   async addToCart(productId: number, quantity: number) {
-    if (quantity <= 0) return 'Invalid quantity';
-
-    // Cek Produk
+    if (quantity <= 0) throw new BadRequestException('Quantity invalid');
     const product = await this.appRepository.findProductById(productId);
-    if (!product) return 'Product not found';
+    if (!product) throw new NotFoundException('Product not found');
+    if (quantity > product.stock) {
+      throw new BadRequestException(`Stok kurang. Sisa stok: ${product.stock}`);
+    }
 
-    // Cek Stok
-    if (quantity > product.stock) return 'Out of stock';
-
-    // Cek apakah barang sudah ada di cart?
     const existingItem =
       await this.appRepository.findCartItemByProductId(productId);
-
     if (existingItem) {
-      // Kalau ada, update qty (tambah)
-      const newQty = existingItem.quantity + quantity;
-      // Validasi lagi, jangan sampai qty di cart melebihi stock real
-      if (newQty > product.stock) return 'Total quantity exceeds stock';
-
-      await this.appRepository.updateCartQty(productId, newQty);
+      const totalNewQty = existingItem.quantity + quantity;
+      if (totalNewQty > product.stock) {
+        throw new BadRequestException('Total quantity melebihi stok tersedia');
+      }
+      await this.appRepository.updateCartQty(productId, totalNewQty);
     } else {
-      // Kalau belum ada, insert baru
       await this.appRepository.addToCart(productId, quantity);
     }
 
-    return 'Added to cart';
+    return { message: 'Berhasil dimasukkan ke keranjang' };
   }
 
-  // 3. Remove From Cart
+  async getCart() {
+    const items = await this.appRepository.findAllCartItems();
+    let totalPayment = 0;
+    const detailItems = items.map((item: any) => {
+      const subtotal = item.price * item.quantity;
+      totalPayment += subtotal;
+      return {
+        product: item.name,
+        price: item.price,
+        qty: item.quantity,
+        subtotal: subtotal,
+      };
+    });
+
+    return {
+      items: detailItems,
+      totalPayment: totalPayment,
+    };
+  }
+
   async removeFromCart(productId: number) {
     const existingItem =
       await this.appRepository.findCartItemByProductId(productId);
-    if (!existingItem) return 'Product not in cart';
-
+    if (!existingItem)
+      throw new NotFoundException('Barang tidak ada di keranjang');
     await this.appRepository.removeCartItem(productId);
-    return 'Removed from cart';
-  }
-
-  // 4. Get Cart Total (Lihat keranjang + Total Harga)
-  async getCart() {
-    const items = await this.appRepository.findAllCartItems();
-
-    let totalPayment = 0;
-    for (const item of items) {
-      totalPayment += item.price * item.quantity;
-    }
-
-    return {
-      items: items,
-      totalPayment: totalPayment,
-    };
+    return { message: 'Barang dihapus dari keranjang' };
   }
 
   // 5. Checkout
   async checkout() {
     const cartItems = await this.appRepository.findAllCartItems();
-    if (cartItems.length === 0) return 'Cart is empty';
-
-    // Loop setiap item di cart untuk kurangi stok produk
+    if (cartItems.length === 0)
+      throw new BadRequestException('Keranjang kosong');
     for (const item of cartItems) {
       const product = await this.appRepository.findProductById(item.product_id);
+
       if (product) {
         const remainingStock = product.stock - item.quantity;
-        // Update stok di tabel products
-        await this.appRepository.updateProductStock(product.id, remainingStock);
+        if (remainingStock >= 0) {
+          await this.appRepository.updateProductStock(
+            product.id,
+            remainingStock,
+          );
+        }
       }
     }
-
-    // Kosongkan keranjang
     await this.appRepository.clearCart();
 
-    return 'Checkout success';
+    return { message: 'Checkout berhasil! Stok sudah dikurangi.' };
   }
 }

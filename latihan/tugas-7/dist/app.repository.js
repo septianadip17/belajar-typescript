@@ -18,11 +18,11 @@ let AppRepository = class AppRepository {
         this.dataSource = dataSource;
     }
     async findAllProducts() {
-        return await this.dataSource.query(`SELECT * FROM products`);
+        return await this.dataSource.query(`SELECT id, name, price, stock FROM products`);
     }
     async findProductById(id) {
-        const result = await this.dataSource.query(`SELECT * FROM products WHERE id = ?`, [id]);
-        return result[0];
+        const result = await this.dataSource.query(`SELECT id, name, price, stock FROM products WHERE id = ?`, [id]);
+        return result.length > 0 ? result[0] : null;
     }
     async updateProductStock(id, newStock) {
         await this.dataSource.query(`UPDATE products SET stock = ? WHERE id = ?`, [
@@ -31,15 +31,17 @@ let AppRepository = class AppRepository {
         ]);
     }
     async findAllCartItems() {
-        return await this.dataSource.query(`
+        const query = `
       SELECT c.product_id, p.name, p.price, c.quantity 
       FROM cart_items c
       JOIN products p ON c.product_id = p.id
-    `);
+    `;
+        return await this.dataSource.query(query);
     }
     async findCartItemByProductId(productId) {
-        const result = await this.dataSource.query(`SELECT * FROM cart_items WHERE product_id = ?`, [productId]);
-        return result[0];
+        const query = `SELECT id, product_id, quantity FROM cart_items WHERE product_id = ?`;
+        const result = await this.dataSource.query(query, [productId]);
+        return result.length > 0 ? result[0] : null;
     }
     async addToCart(productId, quantity) {
         await this.dataSource.query(`INSERT INTO cart_items (product_id, quantity) VALUES (?, ?)`, [productId, quantity]);

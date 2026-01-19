@@ -12,6 +12,8 @@ const typeorm_1 = require("@nestjs/typeorm");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const app_repository_1 = require("./app.repository");
+const product_entity_1 = require("./database/entities/product.entity");
+const cart_item_entity_1 = require("./database/entities/cart-item.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,6 +27,7 @@ exports.AppModule = AppModule = __decorate([
                 username: 'root',
                 password: 'rootpassword',
                 database: 'ecommerce',
+                entities: [product_entity_1.Product, cart_item_entity_1.CartItem],
                 synchronize: false,
             }),
         ],
